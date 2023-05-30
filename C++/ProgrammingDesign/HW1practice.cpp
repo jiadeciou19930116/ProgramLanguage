@@ -6,6 +6,7 @@ const int legMarAge[2] = {16, 18}; //Female and Male legal marriage age.
 void problem1();
 void problem2();
 void problem3();
+void problem4();
 
 int main()
 {
@@ -26,6 +27,9 @@ int main()
 				break;
 			case 3 :
 				problem3();
+				break;
+			case 4 :
+				problem4();
 				break;
 			default:
 				cout << "你輸入的題號不存在，請重新輸入。";
@@ -126,5 +130,11 @@ void problem3()
 		}
 	}
 	cout << bestPrice << " " << maxProfit;
+	return;
+};
+
+void problem4()
+{/*problem 4: Safe location
+  */
 	return;
 };
