@@ -1,9 +1,10 @@
 #include<iostream>
-#include<string>
+#include<iomanip>
 using namespace std;
 
 const int legMarAge[2] = {16, 18}; //Female and Male legal marriage age.
 void problem1();
+void problem2();
 
 int main()
 {
@@ -18,6 +19,9 @@ int main()
 				break;
 			case 1 :
 				problem1();
+				break;
+			case 2 :
+				problem2();
 				break;
 			default:
 				cout << "你輸入的題號不存在，請重新輸入。";
@@ -53,5 +57,35 @@ void problem1()
 		}
 	}
 	cout << "兩個人都符合法定結婚年齡，可以結婚喔～" << endl;
+	return;
+};
+
+void problem2()
+{
+/*Converging to 1?
+ *Input an integer, if it is odd, multiply it by 3 and then add it by 1;
+ *if it is even, divide it by 2.
+ *Repeat until it become 1.
+ *我想加入一個參數用來控制每行印出的數字，另外還想控制每個數字的寬度，讓他們對齊。
+ */
+	int num = 0;
+	int count = 0;
+	cout << "請輸入一個整數：" << endl;
+	cin >> num;
+	while(num != 1)
+	{
+		if(num % 2)
+		{
+			num = num * 3 + 1;
+		}
+		else
+		{
+			num /= 2;
+		}
+		cout << setw(10) << num << " ";
+		count = count % 10 + 1;
+		if(count == 10)
+			cout << endl;
+	}
 	return;
 };
