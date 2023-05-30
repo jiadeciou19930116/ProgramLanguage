@@ -2,44 +2,7 @@
 #include<string>
 using namespace std;
 
-class date
-{
-private
-	int month;
-	int day;
-public
-};
-
-class time
-{
-private
-	int hour;
-	int minute;
-	int second;
-public
-};
-
-class Human = 0 //abstract class
-{
-protected
-	int age;
-	int height;
-	int weight;
-	string acdQlf; // academic qualification
-	string work;
-
-public
-
-};
-
-class Man : public Human
-{
-private
-	string name;
-	string sexuality;
-
-};	
-
+const int legMarAge[2] = {16, 18}; //Female and Male legal marriage age.
 void problem1();
 
 int main()
@@ -67,8 +30,28 @@ int main()
 
 void problem1()
 {
-	
-	cout << "問題一是用來判斷兩個人的年齡能不能合法結婚。" << endl;
-
+/* 輸入一對情侶的年齡(順序由使用者決定)，判斷兩者是否都大於法定結婚歲數，
+ * 回傳他們是否可以結婚。
+ * 男性法定結婚年齡為18歲，女性16歲，可多元成家。
+ */	
+	bool gender[2] = {0};
+       	int age[2] =  {0};
+	cout << endl << "問題1是用來判斷兩個人的年齡能不能合法結婚。" << endl
+		 << "請連續輸入兩人的性別和年齡，中間空白鍵相隔。男性請輸入1, 女性請輸入0。" << endl
+		 << "例如兩位男性結婚，輸入方式為：" << endl
+		 << "1 25 1 30" << endl
+		 << "現在請輸入兩位結婚人的性別與年齡：" << endl;
+	cin >> gender[0] >> age[0] >> gender[1] >> age[1];
+	for(int i = 0; i < 2; i++)
+	{
+		if(age[i] < legMarAge[static_cast<int>(gender[i])])
+		{
+			cout << "第" << i+1 << "位現年" << age[i] << "歲,未達法定結婚年齡喔！"
+				<< "必須滿" << legMarAge[static_cast<int>(gender[i])]
+				<< "才能結婚喔！" << endl;
+			return;
+		}
+	}
+	cout << "兩個人都符合法定結婚年齡，可以結婚喔～" << endl;
 	return;
 };
