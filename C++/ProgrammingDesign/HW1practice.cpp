@@ -5,6 +5,7 @@ using namespace std;
 const int legMarAge[2] = {16, 18}; //Female and Male legal marriage age.
 void problem1();
 void problem2();
+void problem3();
 
 int main()
 {
@@ -22,6 +23,9 @@ int main()
 				break;
 			case 2 :
 				problem2();
+				break;
+			case 3 :
+				problem3();
 				break;
 			default:
 				cout << "你輸入的題號不存在，請重新輸入。";
@@ -87,5 +91,40 @@ void problem2()
 		if(count == 10)
 			cout << endl;
 	}
+	return;
+};
+
+void problem3()
+{
+/*Monopoly pricing
+ *The demand of the product is
+ * demand = base demand - price sensitivity * price
+ * profit = (base demand - price sensitivity * price)(price - cost)
+ * Given demand, base demand, cost, find the maximun profit.
+ */
+	int baseDemand = 0;
+	int priceSen = 0;
+	int cost = 0;
+	
+	int demand = 0;
+	int perProfit = 0; //profit per good
+	int totProfit = 0; //profit for all goods
+	int bestPrice = 0;
+	int maxProfit = 0;
+	
+	cout << "Please input demand, price sensity and cost, seperate by space." << endl;
+	cin >> baseDemand >> priceSen >> cost;
+	for(int price = cost + 1; price <= baseDemand / priceSen; price++)
+	{
+		demand = baseDemand - priceSen * price;
+		perProfit = price - cost;
+		totProfit = demand * perProfit;
+		if( totProfit > maxProfit)
+		{
+			maxProfit = totProfit;
+			bestPrice = price;
+		}
+	}
+	cout << bestPrice << " " << maxProfit;
 	return;
 };
