@@ -1,5 +1,6 @@
 #include<iostream>
 #include<iomanip>
+#include<cmath>
 using namespace std;
 
 const int legMarAge[2] = {16, 18}; //Female and Male legal marriage age.
@@ -13,11 +14,11 @@ int main()
 	int whichProblem = 1;
 	while(whichProblem)
 	{
-		cout << "請輸入你要測試的題號（1～4），若不測試請輸入0離開。"<< endl;
+		cout << "Please input the number which problem you will test: "<< endl;
 	        cin >> whichProblem;
 		switch(whichProblem){
 			case 0 :
-				cout << "你要離開了，再見！" ;
+				cout << "See you next time!";
 				break;
 			case 1 :
 				problem1();
@@ -32,7 +33,7 @@ int main()
 				problem4();
 				break;
 			default:
-				cout << "你輸入的題號不存在，請重新輸入。";
+				cout << "The number you input is out of range, please input again.";
 				break;
 		}
 		cout << endl << endl;
@@ -135,6 +136,37 @@ void problem3()
 
 void problem4()
 {/*problem 4: Safe location
+	*On a two-dimensional plane, there are 6 �� 6 = 36 grid points within the square
+	* whose vertices are (0, 0), (5, 0), (0, 5), and (5, 5). 
+	* We are given the locations of 3 snippers (x1, y1), (x2, y2), and (x3, y3).
   */
+  int x1 = 0;
+	int x2 = 0;
+	int x3 = 0;
+	int y1 = 0;
+	int y2 = 0;
+	int y3 = 0;
+  cout << "Please input location of three snippers. Separated by one white space:" << endl;
+  cin >> x1 >> y1 >> x2 >> y2 >> x3 >> y3;
+  for(int x = 0; x < 6; x++)
+  {
+  	if(x == x1 or x == x2 or x == x3)
+  	{
+  		continue;
+		}
+  	for(int y = 0; y < 6; y++)
+  	{
+  		if(y == y1 or y == y2 or y == y3)
+  		{
+  			continue;
+			}
+			if( abs(x - x1) == abs(y - y1) or abs(x - x2) == abs(y - y2) 
+				or abs(x - x3) == abs(y - y3))
+			{
+				continue;
+			}
+			cout << x << " " << y << endl;
+		}
+	}
 	return;
 };
