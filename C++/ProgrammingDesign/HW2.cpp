@@ -4,7 +4,11 @@
  */
  #include<iostream>
  #include <iomanip>
+ #include<cmath>
  using namespace std;
+ 
+ float* movingAverage(int window, int phase, int magnitudeArr[]);
+ float computeMAE(float predicted[] , int observed[], int simpleSize);
  
  void problem1();
  void problem2();
@@ -28,11 +32,14 @@
 			case 1:
 				problem1();
 				break;
-		case 2:
+			case 2:
 				problem2();
 				break;
-		case 3:
+			case 3:
 				problem3();
+				break;
+			case 4:
+				problem4();
 				break;
 			default:
 				cout << "Out of range, please input again.";
@@ -43,6 +50,34 @@
 	
  	return 0;
  }
+ 
+ float* movingAverage(int window, int phase, int magnitudeArr[])
+ {
+ 	int movePhase = phase - window + 1; //phase of moving window
+	float* averageArr = new float[movePhase];
+	for(int i = 0; i < movePhase; i++)
+	{
+		averageArr[i] = 0;
+		for(int j = 0; j < window; j++)
+		{
+			averageArr[i] += magnitudeArr[i + j];
+		}
+		averageArr[i] /= window;
+	}
+	return averageArr;
+ };
+ 
+ float computeMAE(float predicted[] , int observed[], int simpleSize)
+ {
+ 	float MAE = 0;
+ 	for(int i = 0; i < simpleSize; i++)
+ 	{
+ 		MAE += abs(predicted[i] - observed[i]);
+	}
+	MAE /= simpleSize;
+	
+ 	return MAE;
+ };
  
 void problem1()
 {
@@ -120,43 +155,107 @@ void problem3()
 	/*Problem 3: moving average
 	*/
 	int windowWidth = 0;
-	int phase = 0;
+	int phaseNum = 0;
+	int movePhase = 0;
+	int* demandArr = nullptr;
+	float* forecastArr = nullptr;
+	
 	cout << "Please input the window width: ";
 	cin >> windowWidth;
 	cout << "Please input number of phase: ";
-	cin >> phase;
+	cin >> phaseNum;
 	
-	int* demandArr = new int[phase];
+	movePhase = phaseNum - windowWidth + 1;
+	demandArr = new int[phaseNum];
+	
 	cout << "Please input demand for every phase: ";
-	for(int i = 0; i < phase; i++)
+	for(int i = 0; i < phaseNum; i++)
 	{
 		cin >> demandArr[i];
 	}
 	
-	int movePhase = phase - windowWidth + 1; //phase of moving window
-	int* forecastArr = new int[movePhase];
+	forecastArr = movingAverage(windowWidth, phaseNum, demandArr);
 	for(int i = 0; i < movePhase; i++)
 	{
-		forecastArr[i] = 0;
-		for(int j = 0; j < windowWidth; j++)
-		{
-			forecastArr[i] += demandArr[i + j];
-		}
-		forecastArr[i] /= windowWidth;
 		cout << forecastArr[i];
 		if(i < movePhase - 1)
-			cout << " ,";
+		{
+			cout << ",";
+		}
 		else
+		{
 			cout << endl;
+		}
 	}
 	
 	delete [] demandArr;
-	delete [] forecastArr;
-	
+	for(int i = 0; i < movePhase; i++)
+	{
+		delete (forecastArr + i);
+	}
+	forecastArr = nullptr;
  	return;
 };
  
 void problem4()
-{
+{	
+	/* Problem 4: choosing the window size ?
+	*/
+	int wwLimit = 0; // window width limit
+	int phaseNum = 0;
+	int movePhase = 0;
+	int opWindowWidth = 0; // optimal
+	float MAE = 0;
+	float minMAE = 1000; //minimize MAE
+	int* demandArr = nullptr;
+	float* forecastArr = nullptr;
+	
+	cout << "Please input the window width limit: ";
+	cin >> wwLimit;
+	cout << "Please input number of phase: ";
+	cin >> phaseNum;
+
+	demandArr = new int[phaseNum];
+	cout << "Please input demand for every phase: ";
+	for(int i = 0; i < phaseNum; i++)
+	{
+		cin >> demandArr[i];
+	}
+	for(int wwl = 2; wwl <= wwLimit; wwl ++)
+	{
+		movePhase = phaseNum - wwl;
+		forecastArr = movingAverage(wwl, phaseNum, demandArr);
+		if(wwl == 2)
+		{
+			for(int i = 0; i < movePhase; i++)
+			{
+				cout << forecastArr[i];
+				if(i < movePhase - 1)
+				{
+					cout << ",";
+				}
+				else
+				{
+					cout << endl;
+				}
+			}
+		}
+		
+		MAE = computeMAE(forecastArr , demandArr + wwl, movePhase);
+		if(minMAE > MAE)
+		{
+			minMAE = MAE;
+			opWindowWidth = wwl;
+		}
+	}
+	cout << opWindowWidth << " " << minMAE;
+	
+	delete [] demandArr;
+	for(int i = 0; i < phaseNum - 1; i++) // The longest movePhase = phaseNum - 1
+	{
+		delete (forecastArr + i);
+	}
+	forecastArr = nullptr;
+	
  	return;
 };
