@@ -31,6 +31,9 @@
 		case 2:
 				problem2();
 				break;
+		case 3:
+				problem3();
+				break;
 			default:
 				cout << "Out of range, please input again.";
 				break;
@@ -114,6 +117,42 @@ void problem2()
  
 void problem3()
 {
+	/*Problem 3: moving average
+	*/
+	int windowWidth = 0;
+	int phase = 0;
+	cout << "Please input the window width: ";
+	cin >> windowWidth;
+	cout << "Please input number of phase: ";
+	cin >> phase;
+	
+	int* demandArr = new int[phase];
+	cout << "Please input demand for every phase: ";
+	for(int i = 0; i < phase; i++)
+	{
+		cin >> demandArr[i];
+	}
+	
+	int movePhase = phase - windowWidth + 1; //phase of moving window
+	int* forecastArr = new int[movePhase];
+	for(int i = 0; i < movePhase; i++)
+	{
+		forecastArr[i] = 0;
+		for(int j = 0; j < windowWidth; j++)
+		{
+			forecastArr[i] += demandArr[i + j];
+		}
+		forecastArr[i] /= windowWidth;
+		cout << forecastArr[i];
+		if(i < movePhase - 1)
+			cout << " ,";
+		else
+			cout << endl;
+	}
+	
+	delete [] demandArr;
+	delete [] forecastArr;
+	
  	return;
 };
  
