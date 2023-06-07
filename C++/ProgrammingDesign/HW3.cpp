@@ -6,10 +6,12 @@ int min(int num1, int num2);
 int gcd(int num1, int num2);
 int gcd(int num1, int num2, int num3);
 int highGradeCnt(int threshold, int gradeCnt, int* grades);
+int mostHighGrades(int threshold, int assignmentCnt, int gradeCnt, int** grades);
 void problem1();
 void problem2();
 void problem3();
 void problem4();
+void problem5();
 
 int main()
  {
@@ -18,7 +20,7 @@ int main()
 	do
 	{
 		cout << "If you want ot leave, input 0." << endl
-					<<"Otherwise, please input the problem index which you want to test (1~4): ";
+					<<"Otherwise, please input the problem index which you want to test (1~5): ";
  		cin >> proIndex;
  		switch (proIndex)
 		{
@@ -77,6 +79,28 @@ int highGradeCnt(int threshold, int gradeCnt, int* grades)
 			cnt++;
 	}
 	return cnt;
+};
+
+int mostHighGrades(int threshold, int assignmentCnt, int gradeCnt, int** grades)
+{
+	int cnt = 0;
+	int maxCnt = 0;
+	int opAssignment = 0;
+	for(int i = 0; i < assignmentCnt; i++)
+	{
+		cnt = 0;
+		for(int j = 0; j < gradeCnt; j++)
+		{
+			if(grades[i][j] >= threshold)
+				cnt++;
+		}
+		if(cnt > maxCnt)
+		{
+			maxCnt = cnt;
+			opAssignment = i + 1;
+		}
+	}
+	return opAssignment;
 };
 
 void problem1()
@@ -148,17 +172,37 @@ void problem5()
 	int threshold = 0;
 	int gradeCount = 0;
 	int assignmentCount;
+	int cnt = 0; // grade counts no less then threshold for each assignment
+	int opAssignment = 0;
 	int** grades = nullptr;
+	
 	cout << "Please input number of assignments, grades and threshold grade: ";
 	cin >> assignmentCount >> gradeCount >> threshold;
-	grades = new int[assignmentCount];
+	grades = new int*[assignmentCount];
 	for(int i = 0; i < assignmentCount; i++)
 	{
 		grades[i] = new int[gradeCount];
 		for(int j = 0; j < gradeCount; j++)
 		{
-			grade[i][j] = 0;
+			grades[i][j] = 0;
 		}
 	}
+	
+	cout << "Please input all grades, each assignment a line:" << endl;
+	for(int i = 0; i < assignmentCount; i++)
+	{
+		for(int j = 0; j < gradeCount; j++)
+		{
+			cin >> grades[i][j];
+		}
+	}
+	opAssignment = mostHighGrades(threshold, assignmentCount, gradeCount, grades);
+	cout << setw(10) << opAssignment<< endl;
+	
+	for(int i = 0; i < assignmentCount; i++)
+	{
+		delete [] grades[i];
+	}
+	
 	return;
 }
