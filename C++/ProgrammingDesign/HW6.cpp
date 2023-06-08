@@ -1,7 +1,7 @@
 /*HW 6 Classes
  */
  
- #include<iostream>
+#include<iostream>
 #include<iomanip>
 using namespace std;
 
@@ -21,6 +21,7 @@ public:
 	Time(int h, int m, int s);
 	bool isEarlierThan(Time refTime);
 	void print();
+	void printNicely();
 };
 
 int whoIsEarlest(Time T1, Time T2, Time T3);
@@ -99,7 +100,16 @@ bool Time::isEarlierThan(Time refTime)
 void Time::print()
 {
 	cout << hour << ":"	<< minute << ":" << second << endl;
+	return;
 }
+
+void Time::printNicely()
+{
+	cout << setfill('0') << setw(2) << hour << ":";	
+	cout << setfill('0') << setw(2) << minute << ":";
+	cout << setfill('0') << setw(2) << second << endl;
+	return;
+};
 
 int whoIsEarlest(Time T1, Time T2, Time T3)
 {
@@ -165,6 +175,40 @@ void problem1()
 };
 void problem2()
 {
+	/* Problem 2: Time::printNicely()
+	 */
+	int h1 = 0;
+	int h2 = 0;
+	int h3 = 0;
+	int m1 = 0;
+	int m2 = 0;
+	int m3 = 0;
+	int s1 = 0;
+	int s2 = 0;
+	int s3 = 0;
+	
+	cout << "Please input three time moments:" << endl;
+	cin >> h1 >> m1 >> s1;
+	cin >> h2 >> m2 >> s2;
+	cin >> h3 >> m3 >> s3;
+	Time t1(h1, m1, s1);
+	Time t2(h2, m2, s2);
+	Time t3(h3, m3, s3);
+	
+	switch (whoIsLatest(t1, t2, t3))
+	{
+		case 1:
+			t1.printNicely();
+			break;
+		case 2:
+			t2.printNicely();
+			break;
+		case 3:
+			t3.printNicely();
+			break;
+		default:
+			break;
+	}
 	return;
 };;
 void problem3()
