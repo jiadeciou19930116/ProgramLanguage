@@ -3,9 +3,8 @@
  
 #include<iostream>
 #include<iomanip>
+#include<string>
 using namespace std;
-
-
 
 class Time
 {
@@ -13,17 +12,23 @@ private:
 	int hour;
 	int minute;
 	int second;
+	static bool display;
 	
 friend int whoIsEarlest(Time T1, Time T2, Time T3);
 friend int whoIsLatest(Time T1, Time T2, Time T3);
 
 public:
 	Time(int h, int m, int s);
+	
+	static void setDisplay(bool displayFormat);
+	
 	bool isEarlierThan(Time refTime);
 	void print();
 	void printNicely();
+	void printNicely(bool displayFormat);
 };
 
+bool Time::display = false;
 int whoIsEarlest(Time T1, Time T2, Time T3);
 int whoIsLatest(Time T1, Time T2, Time T3);
 
@@ -85,7 +90,13 @@ Time::Time(int h, int m, int s)
 	hour = h;
 	minute = m;
 	second = s;
-}
+};
+
+void Time::setDisplay(bool displayFormat)
+{
+	Time::display = displayFormat;
+	return;
+};
 
 bool Time::isEarlierThan(Time refTime)
 {
@@ -107,9 +118,34 @@ void Time::printNicely()
 {
 	cout << setfill('0') << setw(2) << hour << ":";	
 	cout << setfill('0') << setw(2) << minute << ":";
-	cout << setfill('0') << setw(2) << second << endl;
+	cout << setfill('0') << setw(2) << second;
 	return;
 };
+
+void Time::printNicely(bool displayFormat)
+{
+	string amOrPm;
+	if(displayFormat)
+	{
+		if(hour < 12)
+		{
+			amOrPm = "AM";
+			if(hour == 0)
+				hour = 12;
+		}
+		else
+		{
+			amOrPm = "PM";
+			hour -= 12;
+		}
+	}
+	cout << setfill('0') << setw(2) << hour << ":";	
+	cout << setfill('0') << setw(2) << minute << ":";
+	cout << setfill('0') << setw(2) << second;
+	cout << " " << amOrPm;
+	return;
+};
+
 
 int whoIsEarlest(Time T1, Time T2, Time T3)
 {
@@ -209,10 +245,60 @@ void problem2()
 		default:
 			break;
 	}
+	cout << endl;
 	return;
 };;
 void problem3()
 {
+	/* Problem 3: Time::displayFormat
+	 */
+	int h1 = 0;
+	int h2 = 0;
+	int h3 = 0;
+	int m1 = 0;
+	int m2 = 0;
+	int m3 = 0;
+	int s1 = 0;
+	int s2 = 0;
+	int s3 = 0;
+	int format = 0;
+	bool displayFormat = false;
+	
+	cout << "Please input three time moments:" << endl;
+	cin >> h1 >> m1 >> s1;
+	cin >> h2 >> m2 >> s2;
+	cin >> h3 >> m3 >> s3;
+	Time t1(h1, m1, s1);
+	Time t2(h2, m2, s2);
+	Time t3(h3, m3, s3);
+	
+	while(true)
+	{
+		cout << "Please input the display format is 12 or 24: ";
+		cin >> format;	
+		if(format == 12 or format == 24)
+			break;
+		cout << "The display format which you input is wrong." << endl;
+	}
+	if(format == 12)
+		displayFormat = true;
+	
+	switch (whoIsLatest(t1, t2, t3))
+	{
+		case 1:
+			t1.printNicely(displayFormat);
+			break;
+		case 2:
+			t2.printNicely(displayFormat);
+			break;
+		case 3:
+			t3.printNicely(displayFormat);
+			break;
+		default:
+			break;
+	}
+	cout << endl;
+	
 	return;
 };;
 void problem4()
