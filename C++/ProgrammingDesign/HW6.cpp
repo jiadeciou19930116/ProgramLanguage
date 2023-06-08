@@ -18,6 +18,7 @@ friend int whoIsEarlest(Time T1, Time T2, Time T3);
 friend int whoIsLatest(Time T1, Time T2, Time T3);
 
 public:
+	Time();
 	Time(int h, int m, int s);
 	
 	static void setDisplay(bool displayFormat);
@@ -28,6 +29,18 @@ public:
 	void printNicely(bool displayFormat);
 };
 
+class Event
+{
+private:
+	char* name;
+	Time start;
+	Time end;
+public:
+	Event(char* n, Time s, Time t);
+	~Event();
+	void printNicely();
+};
+
 bool Time::display = false;
 int whoIsEarlest(Time T1, Time T2, Time T3);
 int whoIsLatest(Time T1, Time T2, Time T3);
@@ -35,7 +48,6 @@ int whoIsLatest(Time T1, Time T2, Time T3);
 void problem1();
 void problem2();
 void problem3();
-void problem4();
 void problem5();
 void problem6();
 void problem7();
@@ -63,9 +75,6 @@ int main()
 			case 3:
 				problem3();
 				break;
-			case 4:
-				problem4();
-				break;
 			case 5:
 				problem5();
 				break;
@@ -84,7 +93,11 @@ int main()
 	
  	return 0;
  }
- 
+
+Time::Time()
+{
+};
+
 Time::Time(int h, int m, int s)
 {
 	hour = h;
@@ -146,6 +159,26 @@ void Time::printNicely(bool displayFormat)
 	return;
 };
 
+Event::Event(char* n, Time s, Time t)
+{
+	*name = *n;
+	start = s;
+	end = t;
+};
+
+Event::~Event()
+{
+	name = nullptr;
+};
+
+void Event::printNicely()
+{
+	cout << "\"" << name << "\"" << endl << left << setfill(' ') << setw(7) << "Start:";
+	start.printNicely();
+	cout << endl << left << setfill(' ') << setw(7) << "End:";
+	end.printNicely();
+	cout << endl;
+};
 
 int whoIsEarlest(Time T1, Time T2, Time T3)
 {
@@ -247,7 +280,7 @@ void problem2()
 	}
 	cout << endl;
 	return;
-};;
+};
 void problem3()
 {
 	/* Problem 3: Time::displayFormat
@@ -300,20 +333,24 @@ void problem3()
 	cout << endl;
 	
 	return;
-};;
-void problem4()
-{
-	return;
-};;
+};
+
 void problem5()
 {
+	/* Problem 5: Event
+	 */
+	char n1[] = "PD";
+	Event e1(n1, Time(14, 20, 0), Time(17, 20, 0));
+	e1.printNicely(); // "PD"
+	// Start: 14:20:00
+	// End: 17:20:00
 	return;
-};;
+};
 void problem6()
 {
 	return;
-};;
+};
 void problem7()
 {
 	return;
-};;
+};
