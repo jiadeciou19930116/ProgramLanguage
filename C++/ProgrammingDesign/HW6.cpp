@@ -37,7 +37,9 @@ private:
 	Time end;
 public:
 	Event(char* n, Time s, Time t);
+	Event(const Event &e);
 	~Event();
+	void setName(char* n);
 	void printNicely();
 };
 
@@ -94,6 +96,7 @@ int main()
  	return 0;
  }
 
+//constructors, destructors and member functions of class Time
 Time::Time()
 {
 };
@@ -159,21 +162,42 @@ void Time::printNicely(bool displayFormat)
 	return;
 };
 
+//constructors, destructors and member functions of class Event
 Event::Event(char* n, Time s, Time t)
 {
-	*name = *n;
+	int num = sizeof(n);
+	name = new char[num];
+	memcpy(name, n, num);
 	start = s;
 	end = t;
 };
 
+Event::Event(const Event &e)
+{
+	cout << *e.name << endl;
+	*name = *e.name;
+	cout << *name << endl;
+	start = e.start;
+	end = e.end;
+};
+
 Event::~Event()
 {
-	name = nullptr;
+	delete [] name;
+};
+
+void Event::setName(char* n)
+{
+	*name = *n;
+	return;
 };
 
 void Event::printNicely()
 {
-	cout << "\"" << name << "\"" << endl << left << setfill(' ') << setw(7) << "Start:";
+	cout << "\"" << name;
+	if(name[1] == '\0')
+		cout << "0"; 
+	cout << "\"" << endl << left << setfill(' ') << setw(7) << "Start:";
 	start.printNicely();
 	cout << endl << left << setfill(' ') << setw(7) << "End:";
 	end.printNicely();
@@ -348,6 +372,18 @@ void problem5()
 };
 void problem6()
 {
+	/* Problem 6: Event::setName()
+	 */
+	char n1[] = "PD";
+	Event e1(n1, Time(14, 20, 0), Time(17, 20, 0));
+	e1.printNicely();
+	Event e2(e1); // copy an object
+	char n2[] = "Calculus";
+	e2.setName(n2);
+	e2.printNicely();
+	e1.printNicely(); // "Calculus" ?
+	// run-time error?
+	
 	return;
 };
 void problem7()
