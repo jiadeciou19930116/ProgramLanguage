@@ -174,9 +174,9 @@ Event::Event(char* n, Time s, Time t)
 
 Event::Event(const Event &e)
 {
-	cout << *e.name << endl;
-	*name = *e.name;
-	cout << *name << endl;
+	int num = sizeof(e.name);
+	name = new char[num + 1];
+	memcpy(name, e.name, num);
 	start = e.start;
 	end = e.end;
 };
@@ -188,15 +188,18 @@ Event::~Event()
 
 void Event::setName(char* n)
 {
-	*name = *n;
+	delete [] name;
+	cout << n << endl;
+	int num = sizeof(n);
+	name = new char[num + 1];
+	memcpy(name, n, num);
+	*(name + num) = '\0';
 	return;
 };
 
 void Event::printNicely()
 {
 	cout << "\"" << name;
-	if(name[1] == '\0')
-		cout << "0"; 
 	cout << "\"" << endl << left << setfill(' ') << setw(7) << "Start:";
 	start.printNicely();
 	cout << endl << left << setfill(' ') << setw(7) << "End:";
