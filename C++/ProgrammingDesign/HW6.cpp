@@ -83,9 +83,6 @@ int main()
 			case 6:
 				problem6();
 				break;
-			case 7:
-				problem7();
-				break;
 			default:
 				cout << "Out of range, please input again.";
 				break;
@@ -189,7 +186,6 @@ Event::~Event()
 void Event::setName(char* n)
 {
 	delete [] name;
-	cout << n << endl;
 	int num = sizeof(n);
 	name = new char[num + 1];
 	memcpy(name, n, num);
@@ -387,9 +383,5 @@ void problem6()
 	e1.printNicely(); // "Calculus" ?
 	// run-time error?
 	
-	return;
-};
-void problem7()
-{
 	return;
 };
